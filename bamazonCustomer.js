@@ -66,22 +66,20 @@ function buyItem() {
         function(err, res) {
           if (err) throw err;
 
-		  var currentAmount = res[0].Stock;
-		  var price = res[0].Price;
-		  var remainingAmount = currentAmount - answer.amount;
-		  console.log("You selected the following: ")
-		  console.table(res);
+          var currentAmount = res[0].Stock;
+          var price = res[0].Price;
+          var remainingAmount = currentAmount - answer.amount;
+          console.log("You selected the following: ");
+          console.table(res);
 
           if (currentAmount > answer.amount) {
             console.log("Amount Remaining: " + remainingAmount);
             console.log("Total Cost: " + answer.amount * price + "\n");
 
-            connection.query(
-              "UPDATE Products SET Stock=? WHERE Item=?",
-              [remainingAmount, answer.id],
-
-              
-            );
+            connection.query("UPDATE Products SET Stock=? WHERE Item=?", [
+              remainingAmount,
+              answer.id
+            ]);
 
             connection.query("SELECT * FROM Products", function(err, res) {
               console.log("This is the updated inventory of product items: ");
